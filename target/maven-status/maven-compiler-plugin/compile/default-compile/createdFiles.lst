@@ -1,0 +1,5 @@
+br\com\bbs\mobile\model\dto\PrescriptionDTO.class
+br\com\bbs\mobile\model\dto\BlockDTO.class
+br\com\bbs\mobile\controller\DoctorController.class
+br\com\bbs\mobile\controller\PatientController.class
+br\com\bbs\mobile\MobileApplication.class
