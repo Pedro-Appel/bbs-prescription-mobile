@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="crypto-component-0.0.3-SNAPSHOT">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../crypto-component/target/crypto-component-0.0.3-SNAPSHOT.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
