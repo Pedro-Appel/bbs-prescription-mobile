@@ -1,1 +1,6 @@
 *.pem
+.git
+.gitignore
+Dockerfile
+*/docker/
+*/patient/
