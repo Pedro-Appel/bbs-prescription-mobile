@@ -1,5 +1,8 @@
-D:\appel\Projects\bombsquad\mobile\src\main\java\br\com\bbs\mobile\model\dto\BlockDTO.java
-D:\appel\Projects\bombsquad\mobile\src\main\java\br\com\bbs\mobile\model\dto\PrescriptionDTO.java
-D:\appel\Projects\bombsquad\mobile\src\main\java\br\com\bbs\mobile\controller\DoctorController.java
-D:\appel\Projects\bombsquad\mobile\src\main\java\br\com\bbs\mobile\controller\PatientController.java
-D:\appel\Projects\bombsquad\mobile\src\main\java\br\com\bbs\mobile\MobileApplication.java
+/home/appel/Documents/coding/bbs/bbs-prescription-mobile/src/main/java/br/com/bbs/mobile/model/VerifyResponse.java
+/home/appel/Documents/coding/bbs/bbs-prescription-mobile/src/main/java/br/com/bbs/mobile/controller/PatientController.java
+/home/appel/Documents/coding/bbs/bbs-prescription-mobile/src/main/java/br/com/bbs/mobile/MobileApplication.java
+/home/appel/Documents/coding/bbs/bbs-prescription-mobile/src/main/java/br/com/bbs/mobile/model/dto/BlockDTO.java
+/home/appel/Documents/coding/bbs/bbs-prescription-mobile/src/main/java/br/com/bbs/mobile/controller/DoctorController.java
+/home/appel/Documents/coding/bbs/bbs-prescription-mobile/src/main/java/br/com/bbs/mobile/model/KeyResponse.java
+/home/appel/Documents/coding/bbs/bbs-prescription-mobile/src/main/java/br/com/bbs/mobile/model/Response.java
+/home/appel/Documents/coding/bbs/bbs-prescription-mobile/src/main/java/br/com/bbs/mobile/model/dto/PrescriptionDTO.java
