@@ -25,9 +25,7 @@ buildNumber.properties
 
 ### STS ###
 .apt_generated
-.classpath
 .factorypath
-.project
 .settings
 .springBeans
 .sts4-cache
@@ -41,3 +39,7 @@ buildNumber.properties
 ### VS Code ###
 .vscode/
 
+/src/main/resources/doctor/private-key.pem
+/src/main/resources/patient/private-key.pem
+/src/main/resources/doctor/public-key.pem
+/src/main/resources/patient/public-key.pem
