@@ -1,8 +1,10 @@
 package br.com.bbs.mobile.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
 @Getter
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class VerifyResponse {
 
     private final boolean valid;

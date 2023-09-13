@@ -28,17 +28,14 @@ public class DoctorService {
         this.keyPath = keyPath;
     }
 
-    public BlockDTO signBlock(PrescriptionRecord prescription, String patientKey, String cipherMedicine, SignatureService ecc) {
+    public BlockDTO generateSignedBlock(PrescriptionRecord prescription, String patientKey, String cipherMedicine, SignatureService ecc) {
 
-        log.info("Signing block ....");
-        String doctorPrivateKey = keyService.getPrivate(keyPath);
         String doctorPublicKey = keyService.getPublic(keyPath);
-
-        log.info("Signing block ....");
-        String doctorPrivateKeyString = getKeyString(doctorPrivateKey);
+        String doctorPrivateKey = keyService.getPrivate(keyPath);
 
         try {
-            String signature = ecc.sign(doctorPrivateKeyString, cipherMedicine);
+            log.info("Signing block ....");
+            String signature = ecc.sign(doctorPrivateKey, cipherMedicine);
             return new BlockDTO(cipherMedicine,
                     patientKey,
                     doctorPublicKey,
@@ -53,11 +50,11 @@ public class DoctorService {
     }
 
     public ResponseEntity<BlockDTO> createBlock(PrescriptionRecord prescription, String patientKey, CryptographyService crypto) {
-        log.info("Creating block ....");
         try {
+            log.info("Preparing to create block ....");
             String patientPrivateKey = getKeyString(patientKey);
             String medicineCipher = crypto.encrypt(patientPrivateKey, prescription.medicine());
-            BlockDTO signedBlock = signBlock(prescription, patientKey, medicineCipher, new ECDSAService());
+            BlockDTO signedBlock = generateSignedBlock(prescription, patientKey, medicineCipher, new ECDSAService());
             log.info("Successfully created block .... {}", signedBlock.toString());
             return ResponseEntity.ok(signedBlock);
         } catch (InvalidApplicationException e) {
