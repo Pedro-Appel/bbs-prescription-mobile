@@ -3,5 +3,5 @@ server:
 
 application:
   key-path:
-    patient: ${KEY_PATH:src/main/resources/patient/}
-    doctor: ${KEY_PATH:src/main/resources/patient/}
+    patient: ${PATIENT_KEY_PATH:patient/}
+    doctor: ${DOCTOR_KEY_PATH:doctor/}
