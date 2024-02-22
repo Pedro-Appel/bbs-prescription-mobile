@@ -29,18 +29,22 @@ public class PatientController {
 
     private static final boolean VALID_CIPHER = true;
     private static final boolean INVALID_CIPHER = false;
+    public static final String PATIENT_DIRECTORY = System.getProperty("user.home") + "/patient";
+    public static final String PUBLIC_KEY_PEM = "public-key.pem";
+    public static final String PRIVATE_KEY_PEM = "private-key.pem";
 
     @GetMapping("/verify")
-    public ResponseEntity<Response> getPrescriptionData(@RequestParam(name = "cipher") String medicineCipher){
+    public ResponseEntity<Response> getPrescriptionData(@RequestParam(name = "cipher") String medicineCipher) {
 
         log.info("Validating cipher ....");
         CryptographyService crypto = new ECCService();
-        Path path = Paths.get("patient/private-key.pem");
+        Path filePath = Paths.get(PATIENT_DIRECTORY + "/" + PRIVATE_KEY_PEM);
         try {
-            String privateKey = Files.readString(path);
+            String privateKey = Files.readString(filePath);
             byte[] privateKeyBytes = KeyPairDTO.getUrlDecoded(privateKey);
             String base64PrivateKey = Base64.toBase64String(privateKeyBytes);
             String plainText = crypto.decrypt(base64PrivateKey, medicineCipher);
+            log.info("Valid cipher");
             return ResponseEntity.ok(new VerifyResponse(VALID_CIPHER, plainText));
         } catch (IOException e) {
             log.error("Failed to find key // {}", e.getMessage());
@@ -52,40 +56,52 @@ public class PatientController {
     }
 
     @GetMapping()
-    public ResponseEntity<Response> getPublicKey() throws InvalidApplicationException {
+    public ResponseEntity<Response> getPublicKey() throws IOException {
 
         log.info("Retrieving public key ....");
-        String publicKey = null;
 
-        try {
-
-            Path path = Paths.get("patient/public-key.pem");
-            publicKey = Files.readString(path);
-
-        } catch (Exception e1) {
-            try {
-                log.warn("No keys found");
-                log.info("Starting to generate KeyPair ....");
-
-                ECCKeysService ecc = new ECCService();
-                KeyPairDTO keyPairDTO = ecc.generateKeyPair();
-
-                publicKey = keyPairDTO.getPublicKey();
-
-                FileOutputStream publicOutputStream = new FileOutputStream("patient/public-key.pem");
-                publicOutputStream.write(keyPairDTO.getPublicKey().getBytes());
-                publicOutputStream.close();
-
-                FileOutputStream privateOutputStream = new FileOutputStream("patient/private-key.pem");
-                privateOutputStream.write(keyPairDTO.getPrivateKey().getBytes());
-                privateOutputStream.close();
-                log.info("Successfully generated KeyPair");
-
-            } catch (IOException e) {
-                log.error("Failed to generate key pair with exception: {}", e.getMessage());
-                throw new RuntimeException(e);
-            }
+        Path filePath = Paths.get(PATIENT_DIRECTORY + "/" + PUBLIC_KEY_PEM);
+        if (!Files.exists(filePath)) {
+            log.warn("No keys found");
+            return ResponseEntity.ok(new KeyResponse(generateKeyPair()));
         }
-        return ResponseEntity.ok(new KeyResponse(publicKey));
+
+        System.out.println("File already exists at: " + filePath);
+        return ResponseEntity.ok(new KeyResponse(Files.readString(filePath)));
+    }
+
+    public String generateKeyPair() {
+        try {
+            log.info("Starting to generate KeyPair ....");
+
+            ECCKeysService ecc = new ECCService();
+            KeyPairDTO keyPairDTO = ecc.generateKeyPair();
+
+            createFile(PUBLIC_KEY_PEM, keyPairDTO.getPublicKey());
+
+            createFile(PRIVATE_KEY_PEM, keyPairDTO.getPrivateKey());
+
+            log.info("Successfully generated KeyPair");
+
+            return keyPairDTO.getPublicKey();
+
+        } catch (IOException | InvalidApplicationException e) {
+            log.error("Failed to generate key pair with exception: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void createFile(String fileName, String key) throws IOException {
+
+        String fullPath = PATIENT_DIRECTORY + "/" + fileName;
+
+        Path filePath = Paths.get(fullPath);
+
+        Files.createDirectories(filePath.getParent());
+        Files.createFile(filePath);
+        Files.write(filePath, key.getBytes());
+
+        System.out.println("File created at: " + filePath);
+
     }
 }

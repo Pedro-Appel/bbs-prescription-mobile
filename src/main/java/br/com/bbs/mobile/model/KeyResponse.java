@@ -1,12 +1,10 @@
 package br.com.bbs.mobile.model;
 
-import br.com.bbs.mobile.model.Response;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class KeyResponse implements Response {
     private final String publicKey;
-    public KeyResponse(String publicKey) {
-        this.publicKey = publicKey;
-    }
 }

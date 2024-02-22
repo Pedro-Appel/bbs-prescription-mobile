@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 @Getter
 public class PrescriptionDTO {
 
-    private String medicine;
+    private final String medicine;
 
-    private LocalDateTime expiration;
+    private final LocalDateTime expiration;
 
     public PrescriptionDTO(String medicine, Integer expirationDays) {
         this.medicine = medicine;
